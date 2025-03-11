@@ -1,4 +1,5 @@
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,6 +44,12 @@
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 214.3 31.8% 91.4%;
     --sidebar-ring: 221.2 83.2% 53.3%;
+    
+    /* Badge colors */
+    --bronze: 26 100% 35%;
+    --silver: 220 13% 70%;
+    --gold: 43 100% 50%;
+    --platinum: 239 84% 67%;
   }
 
   .dark {
@@ -82,6 +89,12 @@
     --sidebar-accent-foreground: 222.2 47.4% 11.2%;
     --sidebar-border: 217.2 32.6% 17.5%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Badge colors in dark mode */
+    --bronze: 26 70% 50%;
+    --silver: 220 13% 85%;
+    --gold: 43 90% 60%;
+    --platinum: 239 84% 75%;
   }
 }
 
@@ -113,7 +126,7 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg;
+    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg transition-all duration-300;
   }
   
   .glass-button {
@@ -130,6 +143,23 @@
   
   .section-container {
     @apply py-12 md:py-20;
+  }
+  
+  /* Badge styles */
+  .badge-bronze {
+    @apply bg-amber-700/10 text-amber-700 border-amber-700/20;
+  }
+  
+  .badge-silver {
+    @apply bg-slate-400/10 text-slate-400 border-slate-400/20;
+  }
+  
+  .badge-gold {
+    @apply bg-yellow-500/10 text-yellow-500 border-yellow-500/20;
+  }
+  
+  .badge-platinum {
+    @apply bg-indigo-500/10 text-indigo-500 border-indigo-500/20;
   }
 }
 
@@ -160,5 +190,30 @@
   
   .animate-delay-500 {
     animation-delay: 500ms;
+  }
+  
+  /* Microinteractions */
+  .pulse-on-hover {
+    @apply transition-transform duration-200;
+  }
+  
+  .pulse-on-hover:hover {
+    @apply transform scale-105;
+  }
+  
+  .float-on-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .float-on-hover:hover {
+    @apply transform -translate-y-1 shadow-lg;
+  }
+  
+  .button-press {
+    @apply transition-all duration-100;
+  }
+  
+  .button-press:active {
+    @apply transform scale-95;
   }
 }

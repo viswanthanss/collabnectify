@@ -1,0 +1,160 @@
+
+import React from 'react';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { MessageSquare, ThumbsUp, Share, Bookmark, Image, Smile, Link2, Users, Paperclip } from 'lucide-react';
+import PostCard from '@/components/feed/PostCard';
+
+const Feed = () => {
+  // Sample posts data
+  const posts = [
+    {
+      id: '1',
+      author: {
+        name: 'Alex Chen',
+        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+        title: 'AI Research Scientist at TechInnovate AI'
+      },
+      content: "Just published my latest research paper on optimizing neural networks for natural language processing. Check it out and let me know your thoughts!",
+      images: ['https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YWklMjByZXNlYXJjaHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60'],
+      postedAt: '2 hours ago',
+      likes: 34,
+      comments: 12,
+      shares: 5,
+      saved: false
+    },
+    {
+      id: '2',
+      author: {
+        name: 'Maya Johnson',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+        title: 'Machine Learning Engineer at DataVision Inc.'
+      },
+      content: "I'm looking for collaborators on a new project focused on applying machine learning to climate data. If you have experience with environmental datasets or time series forecasting, please reach out!",
+      images: [],
+      postedAt: '5 hours ago',
+      likes: 21,
+      comments: 8,
+      shares: 3,
+      saved: true
+    },
+    {
+      id: '3',
+      author: {
+        name: 'David Kim',
+        avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        title: 'PhD Candidate at Stanford University'
+      },
+      content: "Excited to share that I've been selected for a research grant to study the ethics of AI in healthcare! Looking forward to diving deeper into this important area.",
+      images: ['https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhbHRoY2FyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60', 'https://images.unsplash.com/photo-1563213126-a4273aed2016?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8aGVhbHRoY2FyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60'],
+      postedAt: '1 day ago',
+      likes: 87,
+      comments: 24,
+      shares: 15,
+      saved: false
+    }
+  ];
+
+  return (
+    <>
+      <Navbar />
+      <main className="pt-16">
+        <div className="container mx-auto px-4 md:px-6 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Sidebar */}
+            <div className="hidden lg:block">
+              <div className="glass-card rounded-2xl p-6 sticky top-24">
+                <h3 className="text-lg font-semibold mb-4">Communities</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
+                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                      <Users className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">AI Researchers</p>
+                      <p className="text-xs text-muted-foreground">1.2K members</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
+                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                      <Users className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Data Science Hub</p>
+                      <p className="text-xs text-muted-foreground">3.4K members</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
+                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                      <Users className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">ML Engineers</p>
+                      <p className="text-xs text-muted-foreground">2.8K members</p>
+                    </div>
+                  </div>
+                </div>
+                <Button variant="outline" className="w-full mt-4">
+                  Discover Communities
+                </Button>
+              </div>
+            </div>
+            
+            {/* Main Feed */}
+            <div className="lg:col-span-2">
+              {/* Create Post */}
+              <div className="glass-card rounded-2xl p-4 mb-6">
+                <div className="flex gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60" 
+                      alt="Your avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <Input 
+                    placeholder="Share your thoughts, research, or ask a question..." 
+                    className="flex-1 bg-secondary/50"
+                  />
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground">
+                      <Image className="h-4 w-4" />
+                      Photo
+                    </Button>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground">
+                      <Paperclip className="h-4 w-4" />
+                      Document
+                    </Button>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground">
+                      <Link2 className="h-4 w-4" />
+                      Link
+                    </Button>
+                  </div>
+                  <Button size="sm">Post</Button>
+                </div>
+              </div>
+              
+              {/* Posts */}
+              <div className="space-y-6">
+                {posts.map((post, index) => (
+                  <PostCard
+                    key={post.id}
+                    {...post}
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+export default Feed;

@@ -1,10 +1,10 @@
-
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { User, Mail, MapPin, Briefcase, Book, Calendar, Link as LinkIcon, PenSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProjectCard from '@/components/projects/ProjectCard';
+import BadgesSection from '@/components/profile/BadgesSection';
 
 const Profile = () => {
   // Sample user data
@@ -186,6 +186,12 @@ const Profile = () => {
             
             {/* Main Content */}
             <div className="lg:col-span-2">
+              {/* Badges & Achievements Section */}
+              <div className="mb-8">
+                <BadgesSection />
+              </div>
+              
+              {/* Projects Section */}
               <div className="glass-card rounded-2xl p-6 mb-8">
                 <h3 className="text-xl font-semibold mb-6">Projects</h3>
                 <div className="space-y-6">
@@ -198,6 +204,7 @@ const Profile = () => {
                 </div>
               </div>
               
+              {/* Activity Section */}
               <div className="glass-card rounded-2xl p-6">
                 <h3 className="text-xl font-semibold mb-6">Activity</h3>
                 <div className="text-center py-12">
@@ -214,3 +221,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
