@@ -34,7 +34,7 @@ const BadgesSection = () => {
     {
       icon: Award,
       name: 'Early Adopter',
-      description: 'Joined during the platform's beta phase',
+      description: "Joined during the platform's beta phase",
       level: 'gold',
       unlocked: true,
     },
