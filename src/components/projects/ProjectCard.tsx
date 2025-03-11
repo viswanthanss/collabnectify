@@ -17,6 +17,7 @@ interface ProjectCardProps {
     forks: number;
   };
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const ProjectCard = ({
@@ -27,6 +28,7 @@ const ProjectCard = ({
   tags,
   stats,
   className,
+  style,
 }: ProjectCardProps) => {
   return (
     <div 
@@ -34,6 +36,7 @@ const ProjectCard = ({
         "glass-card rounded-2xl overflow-hidden hover-scale",
         className
       )}
+      style={style}
     >
       {imageUrl && (
         <div className="aspect-video w-full relative">
