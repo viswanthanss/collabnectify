@@ -19,7 +19,7 @@ const Events = () => {
       location: 'San Francisco, CA',
       imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
       tags: ['AI', 'Machine Learning', 'Innovation'],
-      format: 'In-person',
+      format: 'In-person' as const,
       attendees: 342,
       recommended: true
     },
@@ -32,7 +32,7 @@ const Events = () => {
       location: 'Virtual',
       imageUrl: 'https://images.unsplash.com/photo-1516245834210-c4c142787335?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80',
       tags: ['Blockchain', 'Web3', 'Cryptocurrency'],
-      format: 'Online',
+      format: 'Online' as const,
       attendees: 512,
       recommended: false
     },
@@ -45,7 +45,7 @@ const Events = () => {
       location: 'New York, NY',
       imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
       tags: ['Design', 'UX', 'UI'],
-      format: 'Hybrid',
+      format: 'Hybrid' as const,
       attendees: 125,
       recommended: true
     },
@@ -61,7 +61,7 @@ const Events = () => {
       location: 'Boston, MA',
       imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
       tags: ['Healthcare', 'AI', 'Research'],
-      format: 'In-person',
+      format: 'In-person' as const,
       attendees: 218,
       recommended: true
     },
@@ -74,7 +74,7 @@ const Events = () => {
       location: 'Virtual',
       imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
       tags: ['Python', 'Development', 'Programming'],
-      format: 'Online',
+      format: 'Online' as const,
       attendees: 456,
       recommended: true
     }
