@@ -8,6 +8,7 @@ import PageTransition from "@/components/ui/PageTransition";
 import Index from "./pages/Index";
 import Profile from "./pages/Profile";
 import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
 import Events from "./pages/Events";
 import Jobs from "./pages/Jobs";
 import Feed from "./pages/Feed";
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/events" element={<Events />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/feed" element={<Feed />} />
