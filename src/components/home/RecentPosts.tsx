@@ -25,7 +25,7 @@ const RecentPosts = () => {
     {
       id: '1',
       title: 'How AI is Transforming Professional Networking',
-      excerpt: 'Discover how artificial intelligence is changing the way professionals connect and collaborate in today's digital landscape.',
+      excerpt: "Discover how artificial intelligence is changing the way professionals connect and collaborate in today's digital landscape.",
       date: 'June 12, 2023',
       author: {
         name: 'Sarah Johnson',
@@ -51,7 +51,7 @@ const RecentPosts = () => {
     {
       id: '3',
       title: 'The Future of Remote Collaboration Tools',
-      excerpt: 'As remote work becomes the norm, collaboration tools are evolving. Find out what's next in this space.',
+      excerpt: "As remote work becomes the norm, collaboration tools are evolving. Find out what's next in this space.",
       date: 'May 15, 2023',
       author: {
         name: 'Emily Rodriguez',
