@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Post, Comment } from '@/types/project';
@@ -78,7 +77,7 @@ const PostCard = ({ post, className, style }: PostCardProps) => {
               avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
               title: 'ML Engineer'
             },
-            content: 'I'd be interested in collaboration opportunities. DM me if you're looking for partners.',
+            content: 'I\'d be interested in collaboration opportunities. DM me if you\'re looking for partners.',
             createdAt: '45 minutes ago',
             likes: 2
           }
