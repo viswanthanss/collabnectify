@@ -4,7 +4,7 @@ export interface Project {
   title: string;
   description: string;
   imageUrl: string;
-  tags?: string[];
+  tags?: string[]; // Make sure tags are optional here too
   stats?: {
     views?: number;
     stars?: number;

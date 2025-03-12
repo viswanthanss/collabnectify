@@ -10,7 +10,7 @@ interface ProjectCardProps {
   title: string;
   description: string;
   imageUrl?: string;
-  tags: string[];
+  tags?: string[]; // Made optional with the ? symbol
   stats: {
     views: number;
     stars: number;
@@ -25,7 +25,7 @@ const ProjectCard = ({
   title,
   description,
   imageUrl,
-  tags,
+  tags = [], // Provide a default empty array when tags is not provided
   stats,
   className,
   style,
