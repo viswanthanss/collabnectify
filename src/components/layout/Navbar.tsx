@@ -40,6 +40,7 @@ const Navbar = () => {
     { name: 'Events', path: '/events', icon: Calendar },
     { name: 'Jobs', path: '/jobs', icon: Building2 },
     { name: 'Feed', path: '/feed', icon: BookOpen },
+    { name: 'Messaging', path: '/messaging', icon: MessageSquare },
     { name: 'Community', path: '/community', icon: Coffee }
   ];
 

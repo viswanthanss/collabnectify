@@ -1,10 +1,12 @@
 
-import React, { useState } from 'react';
-import { Send, Paperclip, Smile, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Paperclip, Smile, X, ChevronLeft } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 import FriendSearch from './FriendSearch';
 
 interface ChatMessage {
@@ -26,6 +28,8 @@ const ChatComponent = () => {
   const [activeChat, setActiveChat] = useState<string | null>('1');
   const [messageInput, setMessageInput] = useState('');
   const [showFriendSearch, setShowFriendSearch] = useState(false);
+  const [showMobileChatList, setShowMobileChatList] = useState(true);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Mock friends data
   const friends: Friend[] = [
@@ -48,41 +52,107 @@ const ChatComponent = () => {
       avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
       status: 'offline',
       lastSeen: '2h ago'
+    },
+    {
+      id: '4',
+      name: 'David Kim',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      status: 'online'
+    },
+    {
+      id: '5',
+      name: 'Jennifer Lee',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      status: 'online'
     }
   ];
 
-  // Sample chat messages
+  // Enhanced sample chat messages with more content
   const chats: Record<string, ChatMessage[]> = {
     '1': [
       {
         id: '1',
         text: "Hi there! How's your AI research going?",
         sender: 'friend',
-        timestamp: new Date(Date.now() - 3600000 * 2)
+        timestamp: new Date(Date.now() - 3600000 * 5)
       },
       {
         id: '2',
         text: "It's going well! I'm making progress on the neural network optimization framework.",
         sender: 'user',
-        timestamp: new Date(Date.now() - 3600000 * 1.5)
+        timestamp: new Date(Date.now() - 3600000 * 4.5)
       },
       {
         id: '3',
         text: "That sounds exciting! Are you using a new approach?",
         sender: 'friend',
-        timestamp: new Date(Date.now() - 3600000)
+        timestamp: new Date(Date.now() - 3600000 * 4)
       },
       {
         id: '4',
         text: "Yes, I'm implementing a gradient-based meta-learning algorithm that should improve efficiency by about 30%.",
         sender: 'user',
-        timestamp: new Date(Date.now() - 1800000)
+        timestamp: new Date(Date.now() - 3600000 * 3.5)
       },
       {
         id: '5',
         text: "Impressive! Would love to hear more about it when you have time.",
         sender: 'friend',
+        timestamp: new Date(Date.now() - 3600000 * 3)
+      },
+      {
+        id: '6',
+        text: "Thanks! I'll send you the paper once it's ready for review. How's your work going?",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 3600000 * 2.5)
+      },
+      {
+        id: '7',
+        text: "Pretty good! I'm working on a new computer vision model for medical imaging. The results are promising so far.",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 3600000 * 2)
+      },
+      {
+        id: '8',
+        text: "That's fantastic! Medical imaging is such an important application of AI. Are you using transformer architecture?",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 3600000 * 1.5)
+      },
+      {
+        id: '9',
+        text: "Yes, we're using a modified vision transformer with some custom layers for the specific imaging modalities we're targeting.",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 3600000 * 1)
+      },
+      {
+        id: '10',
+        text: "Smart approach. The attention mechanism should help with identifying subtle patterns in the images.",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 1800000)
+      },
+      {
+        id: '11',
+        text: "Exactly! That's what we're seeing in our initial results. The model is picking up details that traditional CNNs miss.",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 1200000)
+      },
+      {
+        id: '12',
+        text: "Would you be interested in collaborating on a joint paper? Our techniques might complement each other well.",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 900000)
+      },
+      {
+        id: '13',
+        text: "That's a great idea! Let's set up a call next week to discuss the details.",
+        sender: 'friend',
         timestamp: new Date(Date.now() - 600000)
+      },
+      {
+        id: '14',
+        text: "Perfect! I'll send you some available time slots.",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 300000)
       }
     ],
     '2': [
@@ -97,6 +167,30 @@ const ChatComponent = () => {
         text: "Yes, it was really insightful. Thanks for sharing!",
         sender: 'user',
         timestamp: new Date(Date.now() - 82800000)
+      },
+      {
+        id: '3',
+        text: "Great! What did you think about the methodology they used?",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 79200000)
+      },
+      {
+        id: '4',
+        text: "I thought it was innovative but had some limitations in the experimental design.",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 75600000)
+      },
+      {
+        id: '5',
+        text: "I noticed that too. The sample size seemed a bit small for their claims.",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 72000000)
+      },
+      {
+        id: '6',
+        text: "Exactly. I'd like to see it replicated with a larger dataset.",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 68400000)
       }
     ],
     '3': [
@@ -117,15 +211,80 @@ const ChatComponent = () => {
         text: "Perfect! Looking forward to it.",
         sender: 'friend',
         timestamp: new Date(Date.now() - 165600000)
+      },
+      {
+        id: '4',
+        text: "Should we invite the design team as well?",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 162000000)
+      },
+      {
+        id: '5',
+        text: "Good idea. I'll send them an invite.",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 158400000)
+      }
+    ],
+    '4': [
+      {
+        id: '1',
+        text: "Hi David, I saw your presentation at the conference last week. It was impressive!",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 432000000)
+      },
+      {
+        id: '2',
+        text: "Thanks! I appreciate you attending. Did you have any questions about the research?",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 428400000)
+      },
+      {
+        id: '3',
+        text: "Yes, I was wondering about the computational complexity of your algorithm. How does it scale with larger inputs?",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 424800000)
+      },
+      {
+        id: '4',
+        text: "Good question. The algorithm is O(n log n) in the average case, but can degrade to O(n²) in worst-case scenarios.",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 421200000)
+      }
+    ],
+    '5': [
+      {
+        id: '1',
+        text: "Jennifer, do you have time to review my code PR this week?",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 259200000)
+      },
+      {
+        id: '2',
+        text: "Sure! I can look at it tomorrow afternoon. Is there anything specific you want me to focus on?",
+        sender: 'friend',
+        timestamp: new Date(Date.now() - 255600000)
+      },
+      {
+        id: '3',
+        text: "Mainly the optimization in the data processing pipeline. I think there might be a more efficient approach.",
+        sender: 'user',
+        timestamp: new Date(Date.now() - 252000000)
       }
     ]
   };
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeChat, chats]);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!messageInput.trim() || !activeChat) return;
 
-    // This would typically be handled by a backend, but for demo purposes we'll update local state
+    // This would typically be handled by a backend, but for demo purposes we'll just show a toast
     const newMessage: ChatMessage = {
       id: String(Date.now()),
       text: messageInput,
@@ -133,8 +292,8 @@ const ChatComponent = () => {
       timestamp: new Date()
     };
     
-    // For demo purposes, we'll just update the first chat
     console.log("Message sent:", newMessage);
+    toast.success("Message sent successfully!");
     
     // Clear input after sending
     setMessageInput('');
@@ -146,6 +305,11 @@ const ChatComponent = () => {
 
   const getActiveFriend = () => {
     return friends.find(friend => friend.id === activeChat);
+  };
+
+  const handleChatSelect = (chatId: string) => {
+    setActiveChat(chatId);
+    setShowMobileChatList(false); // Hide chat list on mobile when a chat is selected
   };
 
   return (
@@ -162,14 +326,28 @@ const ChatComponent = () => {
               <X className="h-4 w-4" />
             </Button>
           </div>
-          <FriendSearch />
+          <FriendSearch onAddFriend={() => {
+            toast.success("Friend request sent!");
+            setShowFriendSearch(false);
+          }} />
         </div>
       ) : (
         <>
           {/* Chat header */}
           <div className="border-b p-4 flex justify-between items-center">
+            {!showMobileChatList && activeChat && (
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="md:hidden mr-2" 
+                onClick={() => setShowMobileChatList(true)}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+            )}
+            
             <div className="flex items-center space-x-3">
-              {activeChat && getActiveFriend() ? (
+              {activeChat && getActiveFriend() && !showMobileChatList ? (
                 <>
                   <div className="relative">
                     <Avatar>
@@ -193,7 +371,7 @@ const ChatComponent = () => {
                   </div>
                 </>
               ) : (
-                <p>Select a chat</p>
+                <h3 className="font-medium">Chats</h3>
               )}
             </div>
             
@@ -208,8 +386,8 @@ const ChatComponent = () => {
           
           {/* Chat main area */}
           <div className="flex flex-1 overflow-hidden">
-            {/* Chat list sidebar */}
-            <div className="w-72 border-r hidden md:block">
+            {/* Chat list sidebar - hidden on mobile when a chat is active */}
+            <div className={`${showMobileChatList ? 'w-full md:w-72' : 'hidden md:block w-72'} border-r`}>
               <ScrollArea className="h-full">
                 <div className="p-3">
                   <h3 className="text-sm font-medium mb-2 px-2">Recent Chats</h3>
@@ -219,7 +397,7 @@ const ChatComponent = () => {
                       className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${
                         activeChat === friend.id ? 'bg-primary/10' : 'hover:bg-secondary/50'
                       }`}
-                      onClick={() => setActiveChat(friend.id)}
+                      onClick={() => handleChatSelect(friend.id)}
                     >
                       <div className="relative">
                         <Avatar className="h-10 w-10">
@@ -245,8 +423,8 @@ const ChatComponent = () => {
               </ScrollArea>
             </div>
             
-            {/* Chat messages */}
-            <div className="flex-1 flex flex-col">
+            {/* Chat messages - shown on mobile only when a chat is selected */}
+            <div className={`flex-1 flex flex-col ${!showMobileChatList ? 'block' : 'hidden md:block'}`}>
               <ScrollArea className="flex-1 p-4">
                 {activeChat && chats[activeChat] ? (
                   <div className="space-y-4">
@@ -268,6 +446,7 @@ const ChatComponent = () => {
                         </div>
                       </div>
                     ))}
+                    <div ref={messagesEndRef} />
                   </div>
                 ) : (
                   <div className="flex h-full items-center justify-center text-muted-foreground">
@@ -284,21 +463,29 @@ const ChatComponent = () => {
                       type="button" 
                       size="icon" 
                       variant="ghost"
-                      className="rounded-full"
+                      className="rounded-full hidden sm:flex"
                     >
                       <Paperclip className="h-5 w-5" />
                     </Button>
-                    <Input
-                      placeholder="Type a message..."
-                      value={messageInput}
-                      onChange={(e) => setMessageInput(e.target.value)}
-                      className="flex-1"
-                    />
+                    <div className="flex-1">
+                      <Textarea
+                        placeholder="Type a message..."
+                        value={messageInput}
+                        onChange={(e) => setMessageInput(e.target.value)}
+                        className="min-h-[40px] max-h-[120px] resize-none"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMessage(e);
+                          }
+                        }}
+                      />
+                    </div>
                     <Button 
                       type="button" 
                       size="icon" 
                       variant="ghost"
-                      className="rounded-full"
+                      className="rounded-full hidden sm:flex"
                     >
                       <Smile className="h-5 w-5" />
                     </Button>

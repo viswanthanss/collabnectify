@@ -9,10 +9,10 @@ import ProfileCard from '@/components/profile/ProfileCard';
 import RecentPosts from '@/components/home/RecentPosts';
 import StaffProfiles from '@/components/home/StaffProfiles';
 import Widgets from '@/components/home/Widgets';
-import ChatComponent from '@/components/chat/ChatComponent';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   // Sample data for projects
@@ -123,7 +123,7 @@ const Index = () => {
         {/* Recent Posts Section */}
         <RecentPosts />
 
-        {/* Friend Network & Chat Section */}
+        {/* Messaging CTA Section */}
         <section className="section-container bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
@@ -133,9 +133,30 @@ const Index = () => {
                   Build your network and chat with professionals in your field
                 </p>
               </div>
+              <Button 
+                as={Link}
+                to="/messaging"
+                className="mt-4 md:mt-0"
+              >
+                Go to Messaging
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </div>
             
-            <ChatComponent />
+            <div className="glass-card rounded-2xl p-6 text-center">
+              <h3 className="text-xl font-semibold mb-4">Enhanced Professional Networking</h3>
+              <p className="text-muted-foreground mb-6 max-w-3xl mx-auto">
+                Our messaging platform helps you connect with industry professionals, discuss ideas, collaborate on projects, and build lasting professional relationships.
+              </p>
+              <Button 
+                as={Link}
+                to="/messaging"
+                size="lg"
+                className="rounded-full"
+              >
+                Start Messaging
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -152,6 +173,8 @@ const Index = () => {
               <Button 
                 variant="ghost" 
                 className="mt-4 md:mt-0"
+                as={Link}
+                to="/projects"
               >
                 View All Projects
                 <ArrowRight className="ml-2 h-4 w-4" />

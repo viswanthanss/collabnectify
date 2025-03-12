@@ -14,6 +14,7 @@ import Events from "./pages/Events";
 import Jobs from "./pages/Jobs";
 import Feed from "./pages/Feed";
 import Community from "./pages/Community";
+import Messaging from "./pages/Messaging";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/jobs" element={<Jobs />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/community" element={<Community />} />
+              <Route path="/messaging" element={<Messaging />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </PageTransition>

@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
-import { Search, UserPlus } from 'lucide-react';
+import { Search, UserPlus, UserCheck } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { toast } from 'sonner';
 
 interface Friend {
   id: string;
@@ -11,11 +12,17 @@ interface Friend {
   username: string;
   avatar: string;
   status: 'online' | 'offline' | 'away';
+  isConnected?: boolean;
 }
 
-const FriendSearch = () => {
+interface FriendSearchProps {
+  onAddFriend?: () => void;
+}
+
+const FriendSearch = ({ onAddFriend }: FriendSearchProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<Friend[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   // Mock friends data
   const allFriends: Friend[] = [
@@ -46,16 +53,72 @@ const FriendSearch = () => {
       username: 'davidk',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
       status: 'online'
+    },
+    {
+      id: '5',
+      name: 'Jennifer Lee',
+      username: 'jenniferl',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      status: 'online'
+    },
+    {
+      id: '6',
+      name: 'Alex Chen',
+      username: 'alexc',
+      avatar: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      status: 'online'
+    },
+    {
+      id: '7',
+      name: 'Maria Garcia',
+      username: 'mariag',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjJ8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      status: 'away'
+    },
+    {
+      id: '8',
+      name: 'James Wilson',
+      username: 'jamesw',
+      avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjZ8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      status: 'offline'
     }
   ];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const filtered = allFriends.filter(friend => 
-      friend.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+    if (!searchQuery.trim()) return;
+    
+    setIsSearching(true);
+    
+    // Simulate API call with timeout
+    setTimeout(() => {
+      const filtered = allFriends.filter(friend => 
+        friend.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      
+      // Add random connection status for demo purposes
+      const resultsWithConnectionStatus = filtered.map(friend => ({
+        ...friend,
+        isConnected: Math.random() > 0.7
+      }));
+      
+      setResults(resultsWithConnectionStatus);
+      setIsSearching(false);
+    }, 800);
+  };
+
+  const handleConnect = (friendId: string) => {
+    setResults(prev => 
+      prev.map(friend => 
+        friend.id === friendId 
+          ? { ...friend, isConnected: true } 
+          : friend
+      )
     );
-    setResults(filtered);
+    
+    toast.success("Connection request sent!");
+    if (onAddFriend) onAddFriend();
   };
 
   return (
@@ -70,7 +133,9 @@ const FriendSearch = () => {
             className="pl-10"
           />
         </div>
-        <Button type="submit">Search</Button>
+        <Button type="submit" disabled={isSearching}>
+          {isSearching ? 'Searching...' : 'Search'}
+        </Button>
       </form>
 
       {results.length > 0 && (
@@ -94,12 +159,25 @@ const FriendSearch = () => {
                   <p className="text-xs text-muted-foreground">@{friend.username}</p>
                 </div>
               </div>
-              <Button size="sm" variant="ghost">
-                <UserPlus className="h-4 w-4 mr-2" />
-                Connect
-              </Button>
+              {friend.isConnected ? (
+                <Button size="sm" variant="secondary" disabled>
+                  <UserCheck className="h-4 w-4 mr-2" />
+                  Connected
+                </Button>
+              ) : (
+                <Button size="sm" variant="outline" onClick={() => handleConnect(friend.id)}>
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Connect
+                </Button>
+              )}
             </div>
           ))}
+        </div>
+      )}
+
+      {searchQuery && results.length === 0 && !isSearching && (
+        <div className="text-center p-4 text-muted-foreground">
+          No users found matching "{searchQuery}"
         </div>
       )}
     </div>
