@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -98,9 +98,15 @@ const StaffProfiles = () => {
                     {staff.bio}
                   </p>
                   
-                  <Button variant="outline" size="sm" asChild className="w-full">
-                    <Link to={`/team/${staff.id}`}>View Profile</Link>
-                  </Button>
+                  <div className="flex gap-2 w-full">
+                    <Button variant="outline" size="sm" asChild className="flex-1">
+                      <Link to={`/team/${staff.id}`}>View Profile</Link>
+                    </Button>
+                    <Button variant="secondary" size="sm" className="flex-1">
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      Message
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>

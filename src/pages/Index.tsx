@@ -9,6 +9,7 @@ import ProfileCard from '@/components/profile/ProfileCard';
 import RecentPosts from '@/components/home/RecentPosts';
 import StaffProfiles from '@/components/home/StaffProfiles';
 import Widgets from '@/components/home/Widgets';
+import ChatComponent from '@/components/chat/ChatComponent';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -121,6 +122,22 @@ const Index = () => {
 
         {/* Recent Posts Section */}
         <RecentPosts />
+
+        {/* Friend Network & Chat Section */}
+        <section className="section-container bg-primary/5">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+              <div>
+                <h2 className="font-bold mb-2">Connect & Chat</h2>
+                <p className="text-muted-foreground text-lg">
+                  Build your network and chat with professionals in your field
+                </p>
+              </div>
+            </div>
+            
+            <ChatComponent />
+          </div>
+        </section>
 
         {/* Featured Projects Section */}
         <section className="section-container bg-secondary/50">

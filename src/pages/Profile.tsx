@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -7,20 +8,21 @@ import ProjectCard from '@/components/projects/ProjectCard';
 import BadgesSection from '@/components/profile/BadgesSection';
 import UserActivity from '@/components/profile/UserActivity';
 import UserConnections from '@/components/profile/UserConnections';
+import Certifications from '@/components/profile/Certifications';
 
 const Profile = () => {
   // Sample user data
   const user = {
-    name: 'Alex Chen',
+    name: 'VISWANTHAN S S',
     title: 'AI Research Scientist',
     bio: 'Passionate about pushing the boundaries of artificial intelligence and machine learning. Focusing on neural networks and natural language processing.',
     avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
-    email: 'alex.chen@example.com',
+    email: 'viswanthan.ss@example.com',
     location: 'San Francisco, CA',
     company: 'TechInnovate AI',
     education: 'Stanford University - Ph.D. in Computer Science',
     joined: 'January 2022',
-    website: 'https://alexchen.example.com',
+    website: 'https://viswanthan.example.com',
     skills: ['Machine Learning', 'Python', 'NLP', 'Computer Vision', 'TensorFlow', 'Deep Learning', 'Data Analysis', 'Research'],
     stats: { projects: 14, followers: 728, following: 156 }
   };
@@ -209,6 +211,9 @@ const Profile = () => {
               <div className="mb-8">
                 <BadgesSection />
               </div>
+              
+              {/* Certifications Section */}
+              <Certifications />
               
               {/* Activity Section */}
               <div className="glass-card rounded-2xl p-6 mb-8">
