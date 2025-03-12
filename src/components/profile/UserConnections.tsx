@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { UserPlus, LinkedIn } from 'lucide-react';
+import { UserPlus, Linkedin } from 'lucide-react';
 
 interface Connection {
   id: string;
@@ -36,7 +35,7 @@ const UserConnections = () => {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Recommended Connections</CardTitle>
         <Button variant="outline" size="sm">
-          <LinkedIn className="h-4 w-4 mr-2" />
+          <Linkedin className="h-4 w-4 mr-2" />
           Connect LinkedIn
         </Button>
       </CardHeader>
