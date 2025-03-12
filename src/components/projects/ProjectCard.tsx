@@ -12,9 +12,9 @@ interface ProjectCardProps {
   imageUrl?: string;
   tags?: string[]; // Made optional with the ? symbol
   stats: {
-    views: number;
-    stars: number;
-    forks: number;
+    views?: number; // Made optional to match Project type
+    stars?: number; // Made optional to match Project type
+    forks?: number; // Made optional to match Project type
   };
   className?: string;
   style?: React.CSSProperties;
@@ -67,15 +67,15 @@ const ProjectCard = ({
           <div className="flex items-center space-x-3">
             <span className="flex items-center">
               <Eye className="h-4 w-4 mr-1" />
-              {stats.views}
+              {stats.views || 0}
             </span>
             <span className="flex items-center">
               <Star className="h-4 w-4 mr-1" />
-              {stats.stars}
+              {stats.stars || 0}
             </span>
             <span className="flex items-center">
               <GitBranch className="h-4 w-4 mr-1" />
-              {stats.forks}
+              {stats.forks || 0}
             </span>
           </div>
         </div>
