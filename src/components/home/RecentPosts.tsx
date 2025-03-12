@@ -76,11 +76,12 @@ const RecentPosts = () => {
           <Button 
             variant="ghost" 
             className="mt-4 md:mt-0"
-            as={Link}
-            to="/feed"
+            asChild
           >
-            View All Posts
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <Link to="/feed">
+              View All Posts
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
         </div>
         
