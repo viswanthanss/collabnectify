@@ -1,13 +1,17 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/home/Hero';
 import FeaturedSection from '@/components/home/FeaturedSection';
 import ProjectCard from '@/components/projects/ProjectCard';
 import ProfileCard from '@/components/profile/ProfileCard';
+import RecentPosts from '@/components/home/RecentPosts';
+import StaffProfiles from '@/components/home/StaffProfiles';
+import Widgets from '@/components/home/Widgets';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const Index = () => {
   // Sample data for projects
@@ -82,12 +86,41 @@ const Index = () => {
     }
   ];
 
+  // Show internship notification after a short delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      toast.info(
+        <div className="flex items-start gap-2">
+          <div>
+            <h4 className="font-medium mb-1">New Internship Opportunities</h4>
+            <p className="text-sm">Summer AI Research positions are now open at leading tech companies</p>
+          </div>
+        </div>,
+        {
+          duration: 10000,
+          action: {
+            label: "View",
+            onClick: () => console.log("Viewed internships")
+          }
+        }
+      );
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <Navbar />
       <main>
         <Hero />
         <FeaturedSection />
+        
+        {/* Staff Profiles Section */}
+        <StaffProfiles />
+
+        {/* Recent Posts Section */}
+        <RecentPosts />
 
         {/* Featured Projects Section */}
         <section className="section-container bg-secondary/50">
@@ -119,6 +152,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Platform Insights/Widgets Section */}
+        <Widgets />
 
         {/* Featured Professionals Section */}
         <section className="section-container">

@@ -11,7 +11,7 @@ interface ProjectCardProps {
   description: string;
   imageUrl?: string;
   tags?: string[]; // Made optional with the ? symbol
-  stats: {
+  stats?: {
     views?: number; // Made optional to match Project type
     stars?: number; // Made optional to match Project type
     forks?: number; // Made optional to match Project type
@@ -26,7 +26,7 @@ const ProjectCard = ({
   description,
   imageUrl,
   tags = [], // Provide a default empty array when tags is not provided
-  stats,
+  stats = { views: 0, stars: 0, forks: 0 }, // Provide default empty stats
   className,
   style,
 }: ProjectCardProps) => {
