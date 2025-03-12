@@ -1,10 +1,12 @@
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { User, Mail, MapPin, Briefcase, Book, Calendar, Link as LinkIcon, PenSquare } from 'lucide-react';
+import { User, Mail, MapPin, Briefcase, Book, Calendar, Link as LinkIcon, PenSquare, LinkedIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProjectCard from '@/components/projects/ProjectCard';
 import BadgesSection from '@/components/profile/BadgesSection';
+import UserActivity from '@/components/profile/UserActivity';
+import UserConnections from '@/components/profile/UserConnections';
 
 const Profile = () => {
   // Sample user data
@@ -182,6 +184,23 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+              
+              {/* Add LinkedIn Banner */}
+              <div className="glass-card rounded-2xl p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold">Connect on LinkedIn</h3>
+                  <LinkedIn className="h-5 w-5 text-[#0077B5]" />
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Connect your LinkedIn profile to expand your professional network
+                </p>
+                <Button className="w-full" variant="outline">
+                  <LinkedIn className="h-4 w-4 mr-2" />
+                  Connect Profile
+                </Button>
+              </div>
+              
+              <UserConnections />
             </div>
             
             {/* Main Content */}
@@ -189,6 +208,11 @@ const Profile = () => {
               {/* Badges & Achievements Section */}
               <div className="mb-8">
                 <BadgesSection />
+              </div>
+              
+              {/* Activity Section */}
+              <div className="glass-card rounded-2xl p-6 mb-8">
+                <UserActivity />
               </div>
               
               {/* Projects Section */}
@@ -203,14 +227,6 @@ const Profile = () => {
                   ))}
                 </div>
               </div>
-              
-              {/* Activity Section */}
-              <div className="glass-card rounded-2xl p-6">
-                <h3 className="text-xl font-semibold mb-6">Activity</h3>
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground">Activity feed coming soon</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -221,4 +237,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

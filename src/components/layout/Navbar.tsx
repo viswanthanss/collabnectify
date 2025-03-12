@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Bell, Menu, X, User, Briefcase, Home, LogOut } from 'lucide-react';
+import { Search, Bell, Menu, X, User, Briefcase, Home, LogOut, MessageSquare, Users, Calendar, Building2, BookOpen, Coffee } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import AuthModal from '@/components/auth/AuthModal';
@@ -37,6 +37,10 @@ const Navbar = () => {
     { name: 'Home', path: '/', icon: Home },
     { name: 'Profile', path: '/profile', icon: User },
     { name: 'Projects', path: '/projects', icon: Briefcase },
+    { name: 'Events', path: '/events', icon: Calendar },
+    { name: 'Jobs', path: '/jobs', icon: Building2 },
+    { name: 'Feed', path: '/feed', icon: BookOpen },
+    { name: 'Community', path: '/community', icon: Coffee }
   ];
 
   const toggleMobileMenu = () => {
