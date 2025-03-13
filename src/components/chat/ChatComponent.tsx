@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Smile, X, ChevronLeft, Image, Plus, MoreVertical } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -8,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import FriendSearch from './FriendSearch';
 import UserStories from './UserStories';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ChatMessage {
   id: string;
@@ -35,6 +37,7 @@ const ChatComponent = () => {
   const [showStoriesView, setShowStoriesView] = useState(false);
   const [selectedStoryUser, setSelectedStoryUser] = useState<Friend | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   const friends: Friend[] = [
     {
@@ -373,7 +376,7 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="glass-card rounded-2xl h-[600px] flex flex-col">
+    <div className="glass-card rounded-2xl h-full flex flex-col">
       {showFriendSearch ? (
         <div className="p-4">
           <div className="flex justify-between items-center mb-4">
@@ -454,7 +457,7 @@ const ChatComponent = () => {
                 </TabsList>
                 
                 <TabsContent value="chats" className="mt-0">
-                  <ScrollArea className="h-[530px]">
+                  <ScrollArea className={`${isMobile ? 'h-[calc(100vh-320px)]' : 'h-[530px]'}`}>
                     <div className="p-3">
                       <h3 className="text-sm font-medium mb-2 px-2">Recent Chats</h3>
                       {friends.map(friend => (
@@ -495,7 +498,7 @@ const ChatComponent = () => {
                 </TabsContent>
                 
                 <TabsContent value="stories" className="mt-0">
-                  <ScrollArea className="h-[530px]">
+                  <ScrollArea className={`${isMobile ? 'h-[calc(100vh-320px)]' : 'h-[530px]'}`}>
                     <div className="p-3">
                       <div className="mb-4">
                         <button 

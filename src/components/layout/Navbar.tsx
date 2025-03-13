@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Bell, Menu, X, User, Briefcase, Home, LogOut, MessageSquare, Users, Calendar, Building2, BookOpen, Coffee, Settings } from 'lucide-react';
@@ -13,6 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import NotificationDropdown from '@/components/notifications/NotificationDropdown';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,6 +24,7 @@ const Navbar = () => {
   const [activeAuthTab, setActiveAuthTab] = useState<'login' | 'signup'>('login');
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,20 +92,22 @@ const Navbar = () => {
               <span className="font-bold text-xl md:text-2xl text-gradient">ConnectAI</span>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation with Icons */}
             <nav className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    'px-4 py-2 rounded-full text-sm font-medium transition-colors',
+                    'p-2 rounded-full text-sm font-medium transition-colors flex flex-col items-center',
                     location.pathname === item.path
                       ? 'bg-primary/10 text-primary'
                       : 'text-foreground/80 hover:text-foreground hover:bg-muted'
                   )}
+                  title={item.name}
                 >
-                  {item.name}
+                  <item.icon className="h-5 w-5" />
+                  <span className="text-xs mt-1">{item.name}</span>
                 </Link>
               ))}
             </nav>
@@ -203,7 +208,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Updated to be more accessible */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-sm animate-fade-in md:hidden">
             <div className="container mx-auto px-4 py-8">
@@ -236,9 +241,14 @@ const Navbar = () => {
                     Sign Out
                   </Button>
                 ) : (
-                  <Button className="w-full glass-button" onClick={openLoginModal}>
-                    Sign In
-                  </Button>
+                  <div className="space-y-2">
+                    <Button className="w-full glass-button" onClick={openLoginModal}>
+                      Sign In
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={toggleLoginState} className="text-xs w-full">
+                      {isUserLoggedIn ? 'Demo: Set Logged Out' : 'Demo: Set Logged In'}
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>

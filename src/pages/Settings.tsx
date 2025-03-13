@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Shell } from "@/components/settings/Shell";
@@ -11,10 +11,22 @@ import { DisplaySettings } from "@/components/settings/DisplaySettings";
 import { AccountControls } from "@/components/settings/AccountControls";
 import { ExtraFeatures } from "@/components/settings/ExtraFeatures";
 import { useToast } from "@/hooks/use-toast";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useLocation } from "react-router-dom";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const { toast } = useToast();
+  const isMobile = useIsMobile();
+  const location = useLocation();
+
+  // Set active tab based on hash in URL if present
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    if (hash && ['profile', 'personalization', 'collaboration', 'security', 'display', 'account', 'extra'].includes(hash)) {
+      setActiveTab(hash);
+    }
+  }, [location.hash]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -28,15 +40,15 @@ const Settings = () => {
         <h1 className="text-3xl font-bold tracking-tight mb-8">Settings</h1>
         
         <div className="flex flex-col lg:flex-row gap-8">
-          <Card className="lg:w-80 w-full h-fit sticky top-24">
+          <Card className={`${isMobile ? 'w-full' : 'lg:w-80 w-full'} h-fit ${!isMobile && 'sticky top-24'}`}>
             <Tabs
               defaultValue="profile"
               value={activeTab}
               onValueChange={handleTabChange}
-              orientation="vertical"
+              orientation={isMobile ? "horizontal" : "vertical"}
               className="w-full"
             >
-              <TabsList className="flex flex-col h-auto w-full bg-transparent space-y-1 p-2">
+              <TabsList className={`${isMobile ? 'flex flex-row overflow-x-auto' : 'flex flex-col'} h-auto w-full bg-transparent space-y-1 p-2`}>
                 <TabsTrigger 
                   value="profile" 
                   className="justify-start w-full text-left py-3 px-4"
