@@ -96,7 +96,7 @@ export function ExtraFeatures() {
                     </div>
                     <div className="bg-muted p-3 rounded-lg max-w-[80%]">
                       <p className="text-sm">
-                        Hi there! I'm your AI assistant. How can I help you today?
+                        Hi there! I&apos;m your AI assistant. How can I help you today?
                       </p>
                     </div>
                   </div>
@@ -118,7 +118,7 @@ export function ExtraFeatures() {
                     </div>
                     <div className="bg-muted p-3 rounded-lg max-w-[80%]">
                       <p className="text-sm">
-                        To change your email address, go to "Profile & Account Settings" tab and look for the "Email Address" field. Enter your new email and save the changes. You'll need to verify the new email address by clicking a link sent to it.
+                        To change your email address, go to &quot;Profile &amp; Account Settings&quot; tab and look for the &quot;Email Address&quot; field. Enter your new email and save the changes. You&apos;ll need to verify the new email address by clicking a link sent to it.
                       </p>
                     </div>
                   </div>
@@ -142,7 +142,7 @@ export function ExtraFeatures() {
       <Separator />
       
       <div className="space-y-4">
-        <h3 className="text-lg font-medium">Feedback & Feature Requests</h3>
+        <h3 className="text-lg font-medium">Feedback &amp; Feature Requests</h3>
         
         <Card>
           <CardHeader>
@@ -175,7 +175,7 @@ export function ExtraFeatures() {
             <CardDescription>
               {feedbackType === 'feedback' 
                 ? 'Share your thoughts on your experience with the platform'
-                : 'Suggest new features or improvements you'd like to see'
+                : 'Suggest new features or improvements you\'d like to see'
               }
             </CardDescription>
           </CardHeader>
@@ -266,9 +266,9 @@ export function ExtraFeatures() {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="profile">Profile & Account</SelectItem>
-                    <SelectItem value="project">Projects & Collaboration</SelectItem>
-                    <SelectItem value="messaging">Messaging & Communication</SelectItem>
+                    <SelectItem value="profile">Profile &amp; Account</SelectItem>
+                    <SelectItem value="project">Projects &amp; Collaboration</SelectItem>
+                    <SelectItem value="messaging">Messaging &amp; Communication</SelectItem>
                     <SelectItem value="ui">User Interface</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
@@ -297,7 +297,7 @@ export function ExtraFeatures() {
                 id="feedback-details" 
                 placeholder={feedbackType === 'feedback' 
                   ? 'Please share more details about your experience...' 
-                  : 'Describe the feature you'd like to see and how it would help you...'
+                  : 'Describe the feature you\'d like to see and how it would help you...'
                 }
                 className="min-h-32"
               />
