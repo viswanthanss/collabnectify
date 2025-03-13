@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -133,14 +132,12 @@ const Index = () => {
                   Build your network and chat with professionals in your field
                 </p>
               </div>
-              <Button 
-                as={Link}
-                to="/messaging"
-                className="mt-4 md:mt-0"
-              >
-                Go to Messaging
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link to="/messaging">
+                <Button className="mt-4 md:mt-0">
+                  Go to Messaging
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
             
             <div className="glass-card rounded-2xl p-6 text-center">
@@ -148,14 +145,11 @@ const Index = () => {
               <p className="text-muted-foreground mb-6 max-w-3xl mx-auto">
                 Our messaging platform helps you connect with industry professionals, discuss ideas, collaborate on projects, and build lasting professional relationships.
               </p>
-              <Button 
-                as={Link}
-                to="/messaging"
-                size="lg"
-                className="rounded-full"
-              >
-                Start Messaging
-              </Button>
+              <Link to="/messaging">
+                <Button size="lg" className="rounded-full">
+                  Start Messaging
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
@@ -170,15 +164,12 @@ const Index = () => {
                   Discover innovative projects from our community
                 </p>
               </div>
-              <Button 
-                variant="ghost" 
-                className="mt-4 md:mt-0"
-                as={Link}
-                to="/projects"
-              >
-                View All Projects
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link to="/projects">
+                <Button variant="ghost" className="mt-4 md:mt-0">
+                  View All Projects
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
