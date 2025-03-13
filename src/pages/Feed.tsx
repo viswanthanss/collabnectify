@@ -1,11 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { MessageSquare, ThumbsUp, Share, Bookmark, Image, Smile, Link2, Users, Paperclip } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MessageSquare, ThumbsUp, Share, Bookmark, Image, Smile, Link2, Users, Paperclip, TrendingUp, HandshakeIcon, MicIcon, Trophy, Flame, Calendar, List } from 'lucide-react';
 import PostCard from '@/components/feed/PostCard';
+import ResearchTrendsSection from '@/components/feed/ResearchTrendsSection';
+import TeamCollabSection from '@/components/feed/TeamCollabSection';
+import LiveQASection from '@/components/feed/LiveQASection';
+import ChallengesSection from '@/components/feed/ChallengesSection';
+import PostEditor from '@/components/community/PostEditor';
 
 const Feed = () => {
   // Sample posts data
@@ -57,99 +63,103 @@ const Feed = () => {
     }
   ];
 
+  const [activeTab, setActiveTab] = useState("feed");
+
   return (
     <>
       <Navbar />
       <main className="pt-16">
         <div className="container mx-auto px-4 md:px-6 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Sidebar */}
-            <div className="hidden lg:block">
-              <div className="glass-card rounded-2xl p-6 sticky top-24">
-                <h3 className="text-lg font-semibold mb-4">Communities</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
-                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
-                      <Users className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-medium">AI Researchers</p>
-                      <p className="text-xs text-muted-foreground">1.2K members</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
-                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
-                      <Users className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Data Science Hub</p>
-                      <p className="text-xs text-muted-foreground">3.4K members</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
-                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
-                      <Users className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-medium">ML Engineers</p>
-                      <p className="text-xs text-muted-foreground">2.8K members</p>
-                    </div>
-                  </div>
-                </div>
-                <Button variant="outline" className="w-full mt-4">
-                  Discover Communities
-                </Button>
-              </div>
-            </div>
+          <Tabs defaultValue="feed" className="w-full mb-6" onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-5 mb-4">
+              <TabsTrigger value="feed">Main Feed</TabsTrigger>
+              <TabsTrigger value="research">Research Trends</TabsTrigger>
+              <TabsTrigger value="collab">Team Collab</TabsTrigger>
+              <TabsTrigger value="qa">Live Q&A</TabsTrigger>
+              <TabsTrigger value="challenges">Challenges</TabsTrigger>
+            </TabsList>
             
-            {/* Main Feed */}
-            <div className="lg:col-span-2">
-              {/* Create Post */}
-              <div className="glass-card rounded-2xl p-4 mb-6">
-                <div className="flex gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60" 
-                      alt="Your avatar"
-                      className="w-full h-full object-cover"
-                    />
+            <TabsContent value="feed">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Left Sidebar */}
+                <div className="hidden lg:block">
+                  <div className="glass-card rounded-2xl p-6 sticky top-24">
+                    <h3 className="text-lg font-semibold mb-4">Communities</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
+                        <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                          <Users className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">AI Researchers</p>
+                          <p className="text-xs text-muted-foreground">1.2K members</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
+                        <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                          <Users className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Data Science Hub</p>
+                          <p className="text-xs text-muted-foreground">3.4K members</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-lg cursor-pointer">
+                        <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                          <Users className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">ML Engineers</p>
+                          <p className="text-xs text-muted-foreground">2.8K members</p>
+                        </div>
+                      </div>
+                    </div>
+                    <Button variant="outline" className="w-full mt-4">
+                      Discover Communities
+                    </Button>
                   </div>
-                  <Input 
-                    placeholder="Share your thoughts, research, or ask a question..." 
-                    className="flex-1 bg-secondary/50"
-                  />
                 </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground">
-                      <Image className="h-4 w-4" />
-                      Photo
-                    </Button>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground">
-                      <Paperclip className="h-4 w-4" />
-                      Document
-                    </Button>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground">
-                      <Link2 className="h-4 w-4" />
-                      Link
-                    </Button>
+                
+                {/* Main Feed */}
+                <div className="lg:col-span-2">
+                  {/* Create Post */}
+                  <PostEditor 
+                    placeholder="Share your thoughts, research, or ask a question..."
+                    onPostSubmit={(content, media) => {
+                      console.log("Post submitted:", { content, media });
+                    }}
+                  />
+                  
+                  {/* Posts */}
+                  <div className="space-y-6">
+                    {posts.map((post, index) => (
+                      <PostCard
+                        key={post.id}
+                        {...post}
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      />
+                    ))}
                   </div>
-                  <Button size="sm">Post</Button>
                 </div>
               </div>
-              
-              {/* Posts */}
-              <div className="space-y-6">
-                {posts.map((post, index) => (
-                  <PostCard
-                    key={post.id}
-                    {...post}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+            </TabsContent>
+            
+            <TabsContent value="research">
+              <ResearchTrendsSection />
+            </TabsContent>
+            
+            <TabsContent value="collab">
+              <TeamCollabSection />
+            </TabsContent>
+            
+            <TabsContent value="qa">
+              <LiveQASection />
+            </TabsContent>
+            
+            <TabsContent value="challenges">
+              <ChallengesSection />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
       <Footer />

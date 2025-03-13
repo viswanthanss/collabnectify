@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Paperclip, Smile, X, ChevronLeft } from 'lucide-react';
+import { Send, Paperclip, Smile, X, ChevronLeft, Image, Plus, MoreVertical } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import FriendSearch from './FriendSearch';
+import UserStories from './UserStories';
 
 interface ChatMessage {
   id: string;
@@ -19,9 +19,11 @@ interface ChatMessage {
 interface Friend {
   id: string;
   name: string;
+  username: string;
   avatar: string;
   status: 'online' | 'offline' | 'away';
   lastSeen?: string;
+  hasUnreadStory?: boolean;
 }
 
 const ChatComponent = () => {
@@ -29,26 +31,34 @@ const ChatComponent = () => {
   const [messageInput, setMessageInput] = useState('');
   const [showFriendSearch, setShowFriendSearch] = useState(false);
   const [showMobileChatList, setShowMobileChatList] = useState(true);
+  const [activeTab, setActiveTab] = useState('chats');
+  const [showStoriesView, setShowStoriesView] = useState(false);
+  const [selectedStoryUser, setSelectedStoryUser] = useState<Friend | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Mock friends data
+  // Mock friends data with usernames
   const friends: Friend[] = [
     {
       id: '1',
       name: 'Sarah Johnson',
+      username: 'sarahj',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
-      status: 'online'
+      status: 'online',
+      hasUnreadStory: true
     },
     {
       id: '2',
       name: 'Michael Park',
+      username: 'michaelp',
       avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
       status: 'away',
-      lastSeen: '5m ago'
+      lastSeen: '5m ago',
+      hasUnreadStory: true
     },
     {
       id: '3',
       name: 'Emily Rodriguez',
+      username: 'emilyr',
       avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
       status: 'offline',
       lastSeen: '2h ago'
@@ -56,12 +66,15 @@ const ChatComponent = () => {
     {
       id: '4',
       name: 'David Kim',
+      username: 'davidk',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
-      status: 'online'
+      status: 'online',
+      hasUnreadStory: true
     },
     {
       id: '5',
       name: 'Jennifer Lee',
+      username: 'jenniferl',
       avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
       status: 'online'
     }
@@ -312,6 +325,15 @@ const ChatComponent = () => {
     setShowMobileChatList(false); // Hide chat list on mobile when a chat is selected
   };
 
+  const handleStoryClick = (friend: Friend) => {
+    setSelectedStoryUser(friend);
+    setShowStoriesView(true);
+  };
+
+  const handleAddStory = () => {
+    toast.success("Story added successfully!");
+  };
+
   return (
     <div className="glass-card rounded-2xl h-[600px] flex flex-col">
       {showFriendSearch ? (
@@ -330,6 +352,45 @@ const ChatComponent = () => {
             toast.success("Friend request sent!");
             setShowFriendSearch(false);
           }} />
+        </div>
+      ) : showStoriesView && selectedStoryUser ? (
+        <div className="h-full flex flex-col">
+          <div className="border-b p-4 flex justify-between items-center">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setShowStoriesView(false)}
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <div className="flex items-center space-x-3">
+              <Avatar>
+                <AvatarImage src={selectedStoryUser.avatar} />
+                <AvatarFallback>{selectedStoryUser.name[0]}</AvatarFallback>
+              </Avatar>
+              <div>
+                <h3 className="font-medium">{selectedStoryUser.name}</h3>
+                <p className="text-xs text-muted-foreground">@{selectedStoryUser.username}</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="icon">
+              <MoreVertical className="h-5 w-5" />
+            </Button>
+          </div>
+          
+          <div className="flex-1 flex items-center justify-center bg-black/80">
+            <div className="relative w-full max-w-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cmVzZWFyY2h8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" 
+                alt="Story"
+                className="w-full h-auto"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                <p className="text-white">Working on a new machine learning project today!</p>
+                <span className="text-xs text-white/80">4 hours ago</span>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <>
@@ -364,14 +425,14 @@ const ChatComponent = () => {
                   <div>
                     <h3 className="font-medium">{getActiveFriend()?.name}</h3>
                     <p className="text-xs text-muted-foreground">
-                      {getActiveFriend()?.status === 'online' 
+                      @{getActiveFriend()?.username} • {getActiveFriend()?.status === 'online' 
                         ? 'Online' 
                         : `Last seen ${getActiveFriend()?.lastSeen}`}
                     </p>
                   </div>
                 </>
               ) : (
-                <h3 className="font-medium">Chats</h3>
+                <h3 className="font-medium">Messages</h3>
               )}
             </div>
             
@@ -388,39 +449,118 @@ const ChatComponent = () => {
           <div className="flex flex-1 overflow-hidden">
             {/* Chat list sidebar - hidden on mobile when a chat is active */}
             <div className={`${showMobileChatList ? 'w-full md:w-72' : 'hidden md:block w-72'} border-r`}>
-              <ScrollArea className="h-full">
-                <div className="p-3">
-                  <h3 className="text-sm font-medium mb-2 px-2">Recent Chats</h3>
-                  {friends.map(friend => (
-                    <div 
-                      key={friend.id}
-                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${
-                        activeChat === friend.id ? 'bg-primary/10' : 'hover:bg-secondary/50'
-                      }`}
-                      onClick={() => handleChatSelect(friend.id)}
-                    >
-                      <div className="relative">
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage src={friend.avatar} alt={friend.name} />
-                          <AvatarFallback>{friend.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <span 
-                          className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white ${
-                            friend.status === 'online' ? 'bg-green-500' : 
-                            friend.status === 'away' ? 'bg-yellow-500' : 'bg-gray-500'
+              <Tabs defaultValue="chats" className="w-full" onValueChange={setActiveTab}>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="chats">Chats</TabsTrigger>
+                  <TabsTrigger value="stories">Stories</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="chats" className="mt-0">
+                  <ScrollArea className="h-[530px]">
+                    <div className="p-3">
+                      <h3 className="text-sm font-medium mb-2 px-2">Recent Chats</h3>
+                      {friends.map(friend => (
+                        <div 
+                          key={friend.id}
+                          className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${
+                            activeChat === friend.id ? 'bg-primary/10' : 'hover:bg-secondary/50'
                           }`}
-                        ></span>
-                      </div>
-                      <div className="flex-1 overflow-hidden">
-                        <p className="font-medium text-sm truncate">{friend.name}</p>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {chats[friend.id]?.[chats[friend.id].length - 1]?.text || 'No messages yet'}
-                        </p>
-                      </div>
+                          onClick={() => handleChatSelect(friend.id)}
+                        >
+                          <div className="relative">
+                            <Avatar className="h-10 w-10">
+                              <AvatarImage src={friend.avatar} alt={friend.name} />
+                              <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                            </Avatar>
+                            <span 
+                              className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white ${
+                                friend.status === 'online' ? 'bg-green-500' : 
+                                friend.status === 'away' ? 'bg-yellow-500' : 'bg-gray-500'
+                              }`}
+                            ></span>
+                          </div>
+                          <div className="flex-1 overflow-hidden">
+                            <div className="flex justify-between">
+                              <p className="font-medium text-sm truncate">{friend.name}</p>
+                              <p className="text-xs text-muted-foreground">12m</p>
+                            </div>
+                            <div className="flex justify-between">
+                              <p className="text-xs text-muted-foreground truncate">
+                                @{friend.username} • {chats[friend.id]?.[chats[friend.id].length - 1]?.text || 'No messages yet'}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </ScrollArea>
+                  </ScrollArea>
+                </TabsContent>
+                
+                <TabsContent value="stories" className="mt-0">
+                  <ScrollArea className="h-[530px]">
+                    <div className="p-3">
+                      <div className="mb-4">
+                        <button 
+                          className="flex flex-col items-center w-full p-2 hover:bg-secondary/20 rounded-lg transition-colors"
+                          onClick={handleAddStory}
+                        >
+                          <div className="w-16 h-16 rounded-full border-2 border-dashed border-primary flex items-center justify-center mb-1">
+                            <Plus className="h-6 w-6 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Add Story</span>
+                        </button>
+                      </div>
+
+                      <h3 className="text-sm font-medium mb-2 px-2">Recent Stories</h3>
+                      <div className="grid grid-cols-3 gap-2 mb-4">
+                        {friends.filter(f => f.hasUnreadStory).map(friend => (
+                          <button 
+                            key={friend.id}
+                            className="flex flex-col items-center"
+                            onClick={() => handleStoryClick(friend)}
+                          >
+                            <div className="relative mb-1">
+                              <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500">
+                                <Avatar className="w-full h-full border-2 border-background">
+                                  <AvatarImage src={friend.avatar} alt={friend.name} />
+                                  <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                                </Avatar>
+                              </div>
+                            </div>
+                            <span className="text-xs text-center leading-tight">{friend.name.split(' ')[0]}</span>
+                          </button>
+                        ))}
+                      </div>
+
+                      <h3 className="text-sm font-medium mb-2 px-2">All Contacts</h3>
+                      {friends.map(friend => (
+                        <div 
+                          key={friend.id}
+                          className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-secondary/50 transition-colors mb-1"
+                          onClick={() => handleStoryClick(friend)}
+                        >
+                          <div className="relative">
+                            <Avatar className="h-10 w-10">
+                              <AvatarImage src={friend.avatar} alt={friend.name} />
+                              <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                            </Avatar>
+                            {friend.hasUnreadStory && (
+                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-background"></span>
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium text-sm">{friend.name}</p>
+                            <p className="text-xs text-muted-foreground">@{friend.username}</p>
+                          </div>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <Image className="h-4 w-4 text-muted-foreground" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+              </Tabs>
             </div>
             
             {/* Chat messages - shown on mobile only when a chat is selected */}
@@ -504,3 +644,4 @@ const ChatComponent = () => {
 };
 
 export default ChatComponent;
+
