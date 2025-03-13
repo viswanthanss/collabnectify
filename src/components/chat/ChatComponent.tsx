@@ -36,7 +36,6 @@ const ChatComponent = () => {
   const [selectedStoryUser, setSelectedStoryUser] = useState<Friend | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Mock friends data with usernames
   const friends: Friend[] = [
     {
       id: '1',
@@ -80,7 +79,6 @@ const ChatComponent = () => {
     }
   ];
 
-  // Enhanced sample chat messages with more content
   const chats: Record<string, ChatMessage[]> = {
     '1': [
       {
@@ -286,7 +284,6 @@ const ChatComponent = () => {
     ]
   };
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -297,7 +294,6 @@ const ChatComponent = () => {
     e.preventDefault();
     if (!messageInput.trim() || !activeChat) return;
 
-    // This would typically be handled by a backend, but for demo purposes we'll just show a toast
     const newMessage: ChatMessage = {
       id: String(Date.now()),
       text: messageInput,
@@ -308,7 +304,6 @@ const ChatComponent = () => {
     console.log("Message sent:", newMessage);
     toast.success("Message sent successfully!");
     
-    // Clear input after sending
     setMessageInput('');
   };
 
@@ -322,7 +317,7 @@ const ChatComponent = () => {
 
   const handleChatSelect = (chatId: string) => {
     setActiveChat(chatId);
-    setShowMobileChatList(false); // Hide chat list on mobile when a chat is selected
+    setShowMobileChatList(false);
   };
 
   const handleStoryClick = (friend: Friend) => {
@@ -332,6 +327,49 @@ const ChatComponent = () => {
 
   const handleAddStory = () => {
     toast.success("Story added successfully!");
+  };
+
+  const sampleStories: Record<string, any> = {
+    '1': {
+      id: '1',
+      name: 'Sarah Johnson',
+      username: 'sarahj',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+      stories: [
+        {
+          id: '1',
+          image: 'https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cmVzZWFyY2h8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+          text: 'Working on a new machine learning project today!',
+          timestamp: '4 hours ago'
+        }
+      ]
+    },
+    '2': {
+      id: '2',
+      name: 'Michael Park',
+      username: 'michaelp',
+      avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      stories: [
+        {
+          id: '1',
+          image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YWl8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+          text: 'Exploring the latest in AI technology!',
+          timestamp: '2 hours ago'
+        }
+      ]
+    }
+  };
+
+  const viewUserStory = (userId: string) => {
+    if (sampleStories[userId]) {
+      return (
+        <UserStories 
+          user={sampleStories[userId]} 
+          onClose={() => setShowStoriesView(false)} 
+        />
+      );
+    }
+    return null;
   };
 
   return (
@@ -354,47 +392,9 @@ const ChatComponent = () => {
           }} />
         </div>
       ) : showStoriesView && selectedStoryUser ? (
-        <div className="h-full flex flex-col">
-          <div className="border-b p-4 flex justify-between items-center">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setShowStoriesView(false)}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center space-x-3">
-              <Avatar>
-                <AvatarImage src={selectedStoryUser.avatar} />
-                <AvatarFallback>{selectedStoryUser.name[0]}</AvatarFallback>
-              </Avatar>
-              <div>
-                <h3 className="font-medium">{selectedStoryUser.name}</h3>
-                <p className="text-xs text-muted-foreground">@{selectedStoryUser.username}</p>
-              </div>
-            </div>
-            <Button variant="ghost" size="icon">
-              <MoreVertical className="h-5 w-5" />
-            </Button>
-          </div>
-          
-          <div className="flex-1 flex items-center justify-center bg-black/80">
-            <div className="relative w-full max-w-lg">
-              <img 
-                src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cmVzZWFyY2h8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" 
-                alt="Story"
-                className="w-full h-auto"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                <p className="text-white">Working on a new machine learning project today!</p>
-                <span className="text-xs text-white/80">4 hours ago</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        viewUserStory(selectedStoryUser.id)
       ) : (
         <>
-          {/* Chat header */}
           <div className="border-b p-4 flex justify-between items-center">
             {!showMobileChatList && activeChat && (
               <Button 
@@ -445,9 +445,7 @@ const ChatComponent = () => {
             </Button>
           </div>
           
-          {/* Chat main area */}
           <div className="flex flex-1 overflow-hidden">
-            {/* Chat list sidebar - hidden on mobile when a chat is active */}
             <div className={`${showMobileChatList ? 'w-full md:w-72' : 'hidden md:block w-72'} border-r`}>
               <Tabs defaultValue="chats" className="w-full" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
@@ -563,7 +561,6 @@ const ChatComponent = () => {
               </Tabs>
             </div>
             
-            {/* Chat messages - shown on mobile only when a chat is selected */}
             <div className={`flex-1 flex flex-col ${!showMobileChatList ? 'block' : 'hidden md:block'}`}>
               <ScrollArea className="flex-1 p-4">
                 {activeChat && chats[activeChat] ? (
@@ -595,46 +592,43 @@ const ChatComponent = () => {
                 )}
               </ScrollArea>
               
-              {/* Message input */}
-              {activeChat && (
-                <form onSubmit={handleSendMessage} className="p-4 border-t">
-                  <div className="flex gap-2">
-                    <Button 
-                      type="button" 
-                      size="icon" 
-                      variant="ghost"
-                      className="rounded-full hidden sm:flex"
-                    >
-                      <Paperclip className="h-5 w-5" />
-                    </Button>
-                    <div className="flex-1">
-                      <Textarea
-                        placeholder="Type a message..."
-                        value={messageInput}
-                        onChange={(e) => setMessageInput(e.target.value)}
-                        className="min-h-[40px] max-h-[120px] resize-none"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && !e.shiftKey) {
-                            e.preventDefault();
-                            handleSendMessage(e);
-                          }
-                        }}
-                      />
-                    </div>
-                    <Button 
-                      type="button" 
-                      size="icon" 
-                      variant="ghost"
-                      className="rounded-full hidden sm:flex"
-                    >
-                      <Smile className="h-5 w-5" />
-                    </Button>
-                    <Button type="submit" size="icon" className="rounded-full">
-                      <Send className="h-5 w-5" />
-                    </Button>
+              <form onSubmit={handleSendMessage} className="p-4 border-t">
+                <div className="flex gap-2">
+                  <Button 
+                    type="button" 
+                    size="icon" 
+                    variant="ghost"
+                    className="rounded-full hidden sm:flex"
+                  >
+                    <Paperclip className="h-5 w-5" />
+                  </Button>
+                  <div className="flex-1">
+                    <Textarea
+                      placeholder="Type a message..."
+                      value={messageInput}
+                      onChange={(e) => setMessageInput(e.target.value)}
+                      className="min-h-[40px] max-h-[120px] resize-none"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendMessage(e);
+                        }
+                      }}
+                    />
                   </div>
-                </form>
-              )}
+                  <Button 
+                    type="button" 
+                    size="icon" 
+                    variant="ghost"
+                    className="rounded-full hidden sm:flex"
+                  >
+                    <Smile className="h-5 w-5" />
+                  </Button>
+                  <Button type="submit" size="icon" className="rounded-full">
+                    <Send className="h-5 w-5" />
+                  </Button>
+                </div>
+              </form>
             </div>
           </div>
         </>
@@ -644,4 +638,3 @@ const ChatComponent = () => {
 };
 
 export default ChatComponent;
-
