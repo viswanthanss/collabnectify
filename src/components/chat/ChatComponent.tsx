@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Smile, X, ChevronLeft, Image, Plus, MoreVertical } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -28,11 +27,15 @@ interface Friend {
   hasUnreadStory?: boolean;
 }
 
-const ChatComponent = () => {
+interface ChatComponentProps {
+  initialMobileChatListVisible?: boolean;
+}
+
+const ChatComponent = ({ initialMobileChatListVisible = false }: ChatComponentProps) => {
   const [activeChat, setActiveChat] = useState<string | null>('1');
   const [messageInput, setMessageInput] = useState('');
   const [showFriendSearch, setShowFriendSearch] = useState(false);
-  const [showMobileChatList, setShowMobileChatList] = useState(true);
+  const [showMobileChatList, setShowMobileChatList] = useState(initialMobileChatListVisible);
   const [activeTab, setActiveTab] = useState('chats');
   const [showStoriesView, setShowStoriesView] = useState(false);
   const [selectedStoryUser, setSelectedStoryUser] = useState<Friend | null>(null);
@@ -293,6 +296,23 @@ const ChatComponent = () => {
     }
   }, [activeChat, chats]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (!isMobile) {
+        setShowMobileChatList(true);
+      } else if (isMobile && initialMobileChatListVisible === false) {
+        setShowMobileChatList(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call initially
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMobile, initialMobileChatListVisible]);
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!messageInput.trim() || !activeChat) return;
@@ -320,7 +340,9 @@ const ChatComponent = () => {
 
   const handleChatSelect = (chatId: string) => {
     setActiveChat(chatId);
-    setShowMobileChatList(false);
+    if (isMobile) {
+      setShowMobileChatList(false);
+    }
   };
 
   const handleStoryClick = (friend: Friend) => {
@@ -399,7 +421,7 @@ const ChatComponent = () => {
       ) : (
         <>
           <div className="border-b p-4 flex justify-between items-center">
-            {!showMobileChatList && activeChat && (
+            {(!showMobileChatList || isMobile) && activeChat && (
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -411,7 +433,7 @@ const ChatComponent = () => {
             )}
             
             <div className="flex items-center space-x-3">
-              {activeChat && getActiveFriend() && !showMobileChatList ? (
+              {activeChat && getActiveFriend() && !showMobileChatList && isMobile ? (
                 <>
                   <div className="relative">
                     <Avatar>
@@ -449,7 +471,7 @@ const ChatComponent = () => {
           </div>
           
           <div className="flex flex-1 overflow-hidden">
-            <div className={`${showMobileChatList ? 'w-full md:w-72' : 'hidden md:block w-72'} border-r`}>
+            <div className={`${(showMobileChatList || !isMobile) ? 'block md:w-72 w-full' : 'hidden md:block md:w-72'} border-r`}>
               <Tabs defaultValue="chats" className="w-full" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="chats">Chats</TabsTrigger>
@@ -564,7 +586,7 @@ const ChatComponent = () => {
               </Tabs>
             </div>
             
-            <div className={`flex-1 flex flex-col ${!showMobileChatList ? 'block' : 'hidden md:block'}`}>
+            <div className={`flex-1 flex flex-col ${(showMobileChatList && isMobile) ? 'hidden' : 'block'}`}>
               <ScrollArea className="flex-1 p-4">
                 {activeChat && chats[activeChat] ? (
                   <div className="space-y-4">
@@ -641,3 +663,4 @@ const ChatComponent = () => {
 };
 
 export default ChatComponent;
+

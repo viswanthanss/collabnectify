@@ -97,33 +97,35 @@ const Settings = () => {
           
           <div className="flex-1">
             <Card className="p-6">
-              <TabsContent value="profile" className="mt-0">
-                <ProfileSettings />
-              </TabsContent>
-              
-              <TabsContent value="personalization" className="mt-0">
-                <PersonalizationSettings />
-              </TabsContent>
-              
-              <TabsContent value="collaboration" className="mt-0">
-                <CollaborationSettings />
-              </TabsContent>
-              
-              <TabsContent value="security" className="mt-0">
-                <SecuritySettings />
-              </TabsContent>
-              
-              <TabsContent value="display" className="mt-0">
-                <DisplaySettings />
-              </TabsContent>
-              
-              <TabsContent value="account" className="mt-0">
-                <AccountControls />
-              </TabsContent>
-              
-              <TabsContent value="extra" className="mt-0">
-                <ExtraFeatures />
-              </TabsContent>
+              <Tabs value={activeTab} onValueChange={handleTabChange}>
+                <TabsContent value="profile" className="mt-0">
+                  <ProfileSettings />
+                </TabsContent>
+                
+                <TabsContent value="personalization" className="mt-0">
+                  <PersonalizationSettings />
+                </TabsContent>
+                
+                <TabsContent value="collaboration" className="mt-0">
+                  <CollaborationSettings />
+                </TabsContent>
+                
+                <TabsContent value="security" className="mt-0">
+                  <SecuritySettings />
+                </TabsContent>
+                
+                <TabsContent value="display" className="mt-0">
+                  <DisplaySettings />
+                </TabsContent>
+                
+                <TabsContent value="account" className="mt-0">
+                  <AccountControls />
+                </TabsContent>
+                
+                <TabsContent value="extra" className="mt-0">
+                  <ExtraFeatures />
+                </TabsContent>
+              </Tabs>
             </Card>
           </div>
         </div>
