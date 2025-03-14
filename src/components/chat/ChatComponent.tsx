@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Smile, X, ChevronLeft, Image, Plus, MoreVertical, Search, Star, Forward, Trash, Bell, BellOff, Users, UserPlus } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -924,5 +925,133 @@ const ChatComponent = ({ initialMobileChatListVisible = false }: ChatComponentPr
                               <Bell className="mr-2 h-4 w-4" />
                               <span>Unmute Notifications</span>
                             </>
-                          ) :
+                          ) : (
+                            <>
+                              <BellOff className="mr-2 h-4 w-4" />
+                              <span>Mute Notifications</span>
+                            </>
+                          )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteConversation(activeChat)}>
+                          <Trash className="mr-2 h-4 w-4" />
+                          <span>Delete Conversation</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => reportSpam(activeChat)}>
+                          <span>Report as Spam</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  
+                  <ScrollArea className="flex-1">
+                    <div className="p-4 space-y-6">
+                      {localChats[activeChat]?.map(message => (
+                        <div 
+                          key={message.id} 
+                          className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div className={`relative group max-w-[75%] ${message.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'} rounded-xl p-3`}>
+                            <div className="flex justify-between items-start gap-4">
+                              <p>{message.text}</p>
+                              {message.isStarred && (
+                                <Star className="h-3 w-3 text-yellow-500 ml-2 mt-0.5" fill="currentColor" />
+                              )}
+                            </div>
+                            <div className="text-xs opacity-70 mt-1 text-right">
+                              {formatTime(message.timestamp)}
+                            </div>
+                            
+                            <div className="absolute -right-1 -top-10 bg-background shadow-md rounded-md p-1 opacity-0 group-hover:opacity-100 transition-opacity flex space-x-1">
+                              <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                className="h-8 w-8" 
+                                onClick={() => toggleStarMessage(activeChat, message.id)}
+                              >
+                                <Star className={`h-4 w-4 ${message.isStarred ? 'text-yellow-500 fill-yellow-500' : ''}`} />
+                              </Button>
+                              
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                                    <Forward className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                  <DropdownMenuLabel>Forward to</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
+                                  {friends.filter(f => f.id !== activeChat).map(friend => (
+                                    <DropdownMenuItem 
+                                      key={friend.id}
+                                      onClick={() => forwardMessage(message, friend.id)}
+                                    >
+                                      <Avatar className="h-6 w-6 mr-2">
+                                        <AvatarImage src={friend.avatar} alt={friend.name} />
+                                        <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                                      </Avatar>
+                                      <span>{friend.name}</span>
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
+                  </ScrollArea>
+                  
+                  <div className="p-3 border-t">
+                    <form onSubmit={handleSendMessage} className="flex space-x-2">
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        size="icon" 
+                        className="flex-shrink-0"
+                      >
+                        <Paperclip className="h-5 w-5" />
+                      </Button>
+                      <Textarea 
+                        placeholder="Type a message..." 
+                        value={messageInput}
+                        onChange={e => setMessageInput(e.target.value)}
+                        className="min-h-10 flex-1"
+                        rows={1}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        size="icon" 
+                        className="flex-shrink-0"
+                      >
+                        <Smile className="h-5 w-5" />
+                      </Button>
+                      <Button 
+                        type="submit" 
+                        variant="primary" 
+                        size="icon" 
+                        className="flex-shrink-0"
+                        disabled={!messageInput.trim()}
+                      >
+                        <Send className="h-5 w-5" />
+                      </Button>
+                    </form>
+                  </div>
+                </>
+              ) : (
+                <div className="flex-1 flex flex-col items-center justify-center p-4 text-center text-muted-foreground">
+                  <Users className="h-12 w-12 mb-4" />
+                  <h3 className="font-medium text-lg mb-1">No chat selected</h3>
+                  <p className="max-w-xs">Select a chat from the sidebar or start a new conversation</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
+export default ChatComponent;
