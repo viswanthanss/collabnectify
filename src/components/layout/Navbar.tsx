@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Bell, Menu, X, User, Briefcase, Home, LogOut, MessageSquare, Users, Calendar, Building2, BookOpen, Coffee, Settings } from 'lucide-react';
@@ -66,12 +65,10 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // This will be implemented with Supabase Auth
     setIsUserLoggedIn(false);
     console.log('User logged out');
   };
 
-  // For demo purposes - toggle login state
   const toggleLoginState = () => {
     setIsUserLoggedIn(!isUserLoggedIn);
   };
@@ -83,7 +80,7 @@ const Navbar = () => {
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled
             ? 'bg-white/80 dark:bg-black/80 backdrop-blur-lg shadow-sm'
-            : 'bg-transparent'
+            : 'bg-background shadow-sm'
         )}
       >
         <div className="container mx-auto px-4 md:px-6">
@@ -92,7 +89,6 @@ const Navbar = () => {
               <span className="font-bold text-xl md:text-2xl text-gradient">ConnectAI</span>
             </Link>
 
-            {/* Desktop Navigation with Icons */}
             <nav className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => (
                 <Link
@@ -112,13 +108,11 @@ const Navbar = () => {
               ))}
             </nav>
 
-            {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4">
               <Button variant="ghost" size="icon" aria-label="Search">
                 <Search className="h-5 w-5" />
               </Button>
 
-              {/* Notification Bell */}
               <DropdownMenu open={isNotificationOpen} onOpenChange={setIsNotificationOpen}>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
@@ -131,7 +125,6 @@ const Navbar = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Auth Buttons */}
               {isUserLoggedIn ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -168,13 +161,11 @@ const Navbar = () => {
                 </Button>
               )}
 
-              {/* Test button for demo - Remove in production */}
               <Button variant="outline" size="sm" onClick={toggleLoginState} className="text-xs">
                 {isUserLoggedIn ? 'Demo: Set Logged Out' : 'Demo: Set Logged In'}
               </Button>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="flex items-center space-x-4 md:hidden">
               {isUserLoggedIn && (
                 <DropdownMenu>
@@ -208,9 +199,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu - Updated to be more accessible */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-sm animate-fade-in md:hidden">
+          <div className="fixed inset-0 top-16 z-40 bg-background shadow-lg animate-fade-in md:hidden">
             <div className="container mx-auto px-4 py-8">
               <nav className="flex flex-col space-y-4">
                 {navItems.map((item, index) => (
@@ -221,7 +211,7 @@ const Navbar = () => {
                       'flex items-center space-x-3 p-3 rounded-lg animate-slide-up text-lg',
                       location.pathname === item.path
                         ? 'bg-primary/10 text-primary'
-                        : 'text-foreground/80 hover:text-foreground hover:bg-muted',
+                        : 'text-foreground hover:text-foreground hover:bg-muted',
                       `animate-delay-${(index + 1) * 100}`
                     )}
                   >
@@ -256,7 +246,6 @@ const Navbar = () => {
         )}
       </header>
 
-      {/* Auth Modal */}
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
