@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -70,13 +69,43 @@ const Feed = () => {
       <Navbar />
       <main className="pt-16">
         <div className="container mx-auto px-4 md:px-6 py-8">
-          <Tabs defaultValue="feed" className="w-full mb-6" onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-5 mb-4">
-              <TabsTrigger value="feed">Main Feed</TabsTrigger>
-              <TabsTrigger value="research">Research Trends</TabsTrigger>
-              <TabsTrigger value="collab">Team Collab</TabsTrigger>
-              <TabsTrigger value="qa">Live Q&A</TabsTrigger>
-              <TabsTrigger value="challenges">Challenges</TabsTrigger>
+          <Tabs defaultValue="feed" className="w-full mb-8" onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-5 mb-6 p-1.5 gap-1">
+              <TabsTrigger 
+                value="feed" 
+                className="text-lg py-3 font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <TrendingUp className="h-5 w-5 mr-2 md:inline-block hidden" />
+                Main Feed
+              </TabsTrigger>
+              <TabsTrigger 
+                value="research" 
+                className="text-lg py-3 font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <BookOpen className="h-5 w-5 mr-2 md:inline-block hidden" />
+                Research Trends
+              </TabsTrigger>
+              <TabsTrigger 
+                value="collab" 
+                className="text-lg py-3 font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <Users className="h-5 w-5 mr-2 md:inline-block hidden" />
+                Team Collab
+              </TabsTrigger>
+              <TabsTrigger 
+                value="qa" 
+                className="text-lg py-3 font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <MessageSquare className="h-5 w-5 mr-2 md:inline-block hidden" />
+                Live Q&A
+              </TabsTrigger>
+              <TabsTrigger 
+                value="challenges" 
+                className="text-lg py-3 font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <Trophy className="h-5 w-5 mr-2 md:inline-block hidden" />
+                Challenges
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="feed">

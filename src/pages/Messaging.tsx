@@ -21,6 +21,7 @@ const Messaging = () => {
           </div>
           
           <div className={`${isMobile ? 'h-[calc(100vh-220px)]' : 'h-[600px]'}`}>
+            {/* Always set initialMobileChatListVisible to true for PC to ensure chat list is visible */}
             <ChatComponent initialMobileChatListVisible={true} />
           </div>
         </div>

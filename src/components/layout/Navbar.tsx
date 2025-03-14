@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Bell, Menu, X, User, Briefcase, Home, LogOut, MessageSquare, Users, Calendar, Building2, BookOpen, Coffee, Settings } from 'lucide-react';
@@ -79,7 +80,7 @@ const Navbar = () => {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled
-            ? 'bg-white/80 dark:bg-black/80 backdrop-blur-lg shadow-sm'
+            ? 'bg-white/95 dark:bg-black/95 backdrop-blur-lg shadow-sm'
             : 'bg-background shadow-sm'
         )}
       >
@@ -200,7 +201,7 @@ const Navbar = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 top-16 z-40 bg-background shadow-lg animate-fade-in md:hidden">
+          <div className="fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-md shadow-lg animate-fade-in md:hidden">
             <div className="container mx-auto px-4 py-8">
               <nav className="flex flex-col space-y-4">
                 {navItems.map((item, index) => (
@@ -215,7 +216,7 @@ const Navbar = () => {
                       `animate-delay-${(index + 1) * 100}`
                     )}
                   >
-                    <item.icon className="h-5 w-5" />
+                    <item.icon className="h-6 w-6" />
                     <span>{item.name}</span>
                   </Link>
                 ))}
@@ -231,11 +232,11 @@ const Navbar = () => {
                     Sign Out
                   </Button>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <Button className="w-full glass-button" onClick={openLoginModal}>
                       Sign In
                     </Button>
-                    <Button variant="outline" size="sm" onClick={toggleLoginState} className="text-xs w-full">
+                    <Button variant="outline" size="lg" onClick={toggleLoginState} className="text-sm w-full">
                       {isUserLoggedIn ? 'Demo: Set Logged Out' : 'Demo: Set Logged In'}
                     </Button>
                   </div>

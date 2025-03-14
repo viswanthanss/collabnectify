@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Smile, X, ChevronLeft, Image, Plus, MoreVertical, Search, Star, Forward, Trash, Bell, BellOff, Users, UserPlus } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -891,171 +890,39 @@ const ChatComponent = ({ initialMobileChatListVisible = false }: ChatComponentPr
             </div>
             
             <div className={`flex-1 flex flex-col ${(showMobileChatList && isMobile) ? 'hidden' : 'block'}`}>
-              {activeChat && getActiveFriend() && (
-                <div className="p-2 border-b hidden md:flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarImage src={getActiveFriend()?.avatar} alt={getActiveFriend()?.name} />
-                      <AvatarFallback>{getActiveFriend()?.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-medium">{getActiveFriend()?.name}</h3>
-                      <p className="text-xs text-muted-foreground">
-                        {getActiveFriend()?.id.startsWith('group') ? 'Group Chat' : `@${getActiveFriend()?.username}`} 
-                        {!getActiveFriend()?.id.startsWith('group') && (
-                          getActiveFriend()?.status === 'online' 
-                            ? ' • Online' 
-                            : ` • Last seen ${getActiveFriend()?.lastSeen}`
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-5 w-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => toggleMuteChat(activeChat)}>
-                        {mutedChats.includes(activeChat) ? (
-                          <>
-                            <Bell className="mr-2 h-4 w-4" />
-                            <span>Unmute Notifications</span>
-                          </>
-                        ) : (
-                          <>
-                            <BellOff className="mr-2 h-4 w-4" />
-                            <span>Mute Notifications</span>
-                          </>
-                        )}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => reportSpam(activeChat)}>
-                        <span className="text-destructive">Report Spam</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => deleteConversation(activeChat)}>
-                        <Trash className="mr-2 h-4 w-4" />
-                        <span>Delete Conversation</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              )}
-              
-              <ScrollArea className="flex-1 p-4">
-                {activeChat && localChats[activeChat] ? (
-                  <div className="space-y-4">
-                    {localChats[activeChat].map(message => (
-                      <div 
-                        key={message.id}
-                        className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div 
-                          className={`
-                            max-w-[80%] rounded-xl p-3 relative group
-                            ${message.sender === 'user' 
-                              ? 'bg-primary text-primary-foreground ml-auto' 
-                              : 'bg-secondary'}
-                          `}
-                        >
-                          <p className="text-sm">{message.text}</p>
-                          <p className="text-xs opacity-70 mt-1 text-right">
-                            {formatTime(message.timestamp)}
-                            {message.isStarred && (
-                              <span className="ml-2">
-                                <Star className="inline-block h-3 w-3 text-yellow-500 fill-yellow-500" />
-                              </span>
-                            )}
-                          </p>
-                          
-                          {/* Message actions */}
-                          <div className="absolute -top-8 right-0 opacity-0 group-hover:opacity-100 transition-opacity bg-background border rounded-lg shadow-sm flex">
-                            <Button 
-                              size="icon" 
-                              variant="ghost" 
-                              className="h-7 w-7"
-                              onClick={() => toggleStarMessage(activeChat, message.id)}
-                            >
-                              <Star className={`h-3 w-3 ${message.isStarred ? 'text-yellow-500 fill-yellow-500' : ''}`} />
-                            </Button>
-                            
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button size="icon" variant="ghost" className="h-7 w-7">
-                                  <Forward className="h-3 w-3" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Forward to</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {filteredFriends.filter(f => f.id !== activeChat).map(friend => (
-                                  <DropdownMenuItem 
-                                    key={friend.id}
-                                    onClick={() => forwardMessage(message, friend.id)}
-                                  >
-                                    {friend.name}
-                                  </DropdownMenuItem>
-                                ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </div>
+              {activeChat && getActiveFriend() ? (
+                <>
+                  <div className="p-2 border-b hidden md:flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Avatar>
+                        <AvatarImage src={getActiveFriend()?.avatar} alt={getActiveFriend()?.name} />
+                        <AvatarFallback>{getActiveFriend()?.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="font-medium">{getActiveFriend()?.name}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          {getActiveFriend()?.id.startsWith('group') ? 'Group Chat' : `@${getActiveFriend()?.username}`} 
+                          {!getActiveFriend()?.id.startsWith('group') && (
+                            getActiveFriend()?.status === 'online' 
+                              ? ' • Online' 
+                              : ` • Last seen ${getActiveFriend()?.lastSeen}`
+                          )}
+                        </p>
                       </div>
-                    ))}
-                    <div ref={messagesEndRef} />
-                  </div>
-                ) : (
-                  <div className="flex h-full items-center justify-center text-muted-foreground">
-                    <p>Select a chat to start messaging</p>
-                  </div>
-                )}
-              </ScrollArea>
-              
-              <form onSubmit={handleSendMessage} className="p-4 border-t">
-                <div className="flex gap-2">
-                  <Button 
-                    type="button" 
-                    size="icon" 
-                    variant="ghost"
-                    className="rounded-full hidden sm:flex"
-                  >
-                    <Paperclip className="h-5 w-5" />
-                  </Button>
-                  <div className="flex-1">
-                    <Textarea
-                      placeholder="Type a message..."
-                      value={messageInput}
-                      onChange={(e) => setMessageInput(e.target.value)}
-                      className="min-h-[40px] max-h-[120px] resize-none"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          handleSendMessage(e);
-                        }
-                      }}
-                    />
-                  </div>
-                  <Button 
-                    type="button" 
-                    size="icon" 
-                    variant="ghost"
-                    className="rounded-full hidden sm:flex"
-                  >
-                    <Smile className="h-5 w-5" />
-                  </Button>
-                  <Button type="submit" size="icon" className="rounded-full">
-                    <Send className="h-5 w-5" />
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+                    </div>
+                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreVertical className="h-5 w-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => toggleMuteChat(activeChat)}>
+                          {mutedChats.includes(activeChat) ? (
+                            <>
+                              <Bell className="mr-2 h-4 w-4" />
+                              <span>Unmute Notifications</span>
+                            </>
+                          ) :
 
-export default ChatComponent;
