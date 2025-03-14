@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MessageSquare, ThumbsUp, Share, Bookmark, Image, Smile, Link2, Users, Paperclip, TrendingUp, HandshakeIcon, MicIcon, Trophy, Flame, Calendar, List } from 'lucide-react';
+import { MessageSquare, ThumbsUp, Share, Bookmark, Image, Smile, Link2, Users, Paperclip, TrendingUp, HandshakeIcon, MicIcon, Trophy, Flame, Calendar, List, BookOpen } from 'lucide-react';
 import PostCard from '@/components/feed/PostCard';
 import ResearchTrendsSection from '@/components/feed/ResearchTrendsSection';
 import TeamCollabSection from '@/components/feed/TeamCollabSection';

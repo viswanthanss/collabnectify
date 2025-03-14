@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Smile, X, ChevronLeft, Image, Plus, MoreVertical, Search, Star, Forward, Trash, Bell, BellOff, Users, UserPlus } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -1029,7 +1028,7 @@ const ChatComponent = ({ initialMobileChatListVisible = false }: ChatComponentPr
                       </Button>
                       <Button 
                         type="submit" 
-                        variant="primary" 
+                        variant="default" 
                         size="icon" 
                         className="flex-shrink-0"
                         disabled={!messageInput.trim()}
